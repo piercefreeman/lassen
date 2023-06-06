@@ -2,6 +2,7 @@ from json import dumps as json_dumps
 from os import environ
 
 import pytest
+from sqlalchemy import text
 
 from lassen.core.config import CoreSettings, register_settings
 from lassen.db.session import get_db_context
@@ -41,10 +42,20 @@ def inject_env_variables():
 @pytest.fixture()
 def db_session():
     with get_db_context() as db:
+        # Drop the alembic specific tables
+        db.execute(text("DROP TABLE IF EXISTS alembic_version"))
+
+        # Commit these changes
+        db.execute(text("COMMIT"))
+
+    with get_db_context() as db:
+        # Import all models used in tests
+        import lassen.tests.fixtures.test_harness.test_harness.models  # noqa
+        import lassen.tests.model_fixtures  # noqa
+
         # Make sure each test has a fresh context
         from lassen.db.base_class import Base
 
         Base.metadata.drop_all(bind=db.bind)
-        Base.metadata.create_all(bind=db.bind)
 
         yield db

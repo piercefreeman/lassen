@@ -1,12 +1,20 @@
+import pytest
 from sqlalchemy.orm import Session
 
 from lassen.store import StoreBase
-from lassen.tests.fixtures import (
+from lassen.tests.model_fixtures import (
     TestModel,
     TestSchema,
     TestSchemaCreate,
     TestSchemaUpdate,
 )
+
+
+@pytest.fixture
+def use_fixture_models(db_session: Session):
+    from lassen.db.base_class import Base
+
+    Base.metadata.create_all(bind=db_session.bind)
 
 
 def create_batch(db_session: Session, quantity: int = 1):
@@ -20,7 +28,7 @@ def create_batch(db_session: Session, quantity: int = 1):
     return create_identifiers
 
 
-def test_store_base_get(db_session: Session):
+def test_store_base_get(db_session: Session, use_fixture_models):
     test_model_id = create_batch(db_session, quantity=1)[0]
 
     store = StoreBase[TestSchema, TestSchemaCreate, TestSchemaUpdate](TestModel)
@@ -34,7 +42,7 @@ def test_store_base_get(db_session: Session):
     assert store.get(db_session, id=9999) == None
 
 
-def test_store_base_get_multi(db_session: Session):
+def test_store_base_get_multi(db_session: Session, use_fixture_models):
     create_batch(db_session, quantity=5)
 
     store = StoreBase[TestSchema, TestSchemaCreate, TestSchemaUpdate](TestModel)
@@ -55,7 +63,7 @@ def test_store_base_get_multi(db_session: Session):
     assert len(retrieved) == 2
 
 
-def test_store_base_update(db_session: Session):
+def test_store_base_update(db_session: Session, use_fixture_models):
     test_model_id = create_batch(db_session, quantity=1)[0]
 
     store = StoreBase[TestSchema, TestSchemaCreate, TestSchemaUpdate](TestModel)
@@ -69,7 +77,7 @@ def test_store_base_update(db_session: Session):
     assert updated.name == "Updated Name"
 
 
-def test_store_base_remove(db_session):
+def test_store_base_remove(db_session: Session, use_fixture_models):
     test_model_id = create_batch(db_session, quantity=1)[0]
 
     store = StoreBase[TestSchema, TestSchemaCreate, TestSchemaUpdate](TestModel)
