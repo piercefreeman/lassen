@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "test-harness"
+version = "0.1.0"
+description = ""
+authors = ["Pierce Freeman <pierce@freeman.vc>"]
+readme = "README.md"
+packages = [{include = "test_harness"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
