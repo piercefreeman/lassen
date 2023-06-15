@@ -10,6 +10,11 @@ from pyarrow.lib import ArrowInvalid
 from lassen.datasets.pyarrow_schemas import get_schema_from_dataclass
 
 
+@dataclass
+class EmbeddedDataclass:
+    value: int
+
+
 @pytest.mark.parametrize(
     "field_type, field_value",
     [
@@ -36,6 +41,10 @@ from lassen.datasets.pyarrow_schemas import get_schema_from_dataclass
         (
             list[str],
             ["test", "test2"],
+        ),
+        (
+            EmbeddedDataclass,
+            EmbeddedDataclass(value=1),
         ),
     ],
 )
