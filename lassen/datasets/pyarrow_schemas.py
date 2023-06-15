@@ -52,16 +52,6 @@ def python_type_to_pyarrow_type(python_type: Type) -> Union[pa.DataType, None]:
                 )
             element_type = python_type_to_pyarrow_type(args[0])
             return pa.list_(element_type)
-        elif origin is dict:
-            # Get the type of the list elements
-            args = get_args(python_type)
-            if len(args) != 2:
-                raise ValueError(
-                    f"Dict must have exactly two type arguments, received: {args}"
-                )
-            key_type = python_type_to_pyarrow_type(args[0])
-            value_type = python_type_to_pyarrow_type(args[1])
-            return pa.dictionary(key_type, value_type)
         elif origin is np.ndarray:
             args = get_args(python_type)
             if len(args) != 1:
