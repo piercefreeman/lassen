@@ -50,7 +50,9 @@ def examples_to_batch(
         for feature, value in asdict(example).items():
             batch[feature].append(value)
 
-    if explicit_schema:
+    if explicit_schema and examples:
+        # If explicit_schema is specified without examples, the dataframe will have empty dtypes
+        # by default and the schema-dataframe mismatch will raise an exception.
         schema = get_schema_from_dataclass(data_class)
         table = Table.from_pandas(pd.DataFrame(batch), schema=schema)
         return table
