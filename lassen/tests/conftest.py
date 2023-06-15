@@ -1,5 +1,6 @@
 from json import dumps as json_dumps
 from os import environ
+from tempfile import TemporaryDirectory
 
 import pytest
 from sqlalchemy import text
@@ -59,3 +60,9 @@ def db_session():
         Base.metadata.drop_all(bind=db.bind)
 
         yield db
+
+
+@pytest.fixture()
+def tempdir():
+    with TemporaryDirectory() as tempdir:
+        yield tempdir

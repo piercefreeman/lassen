@@ -35,7 +35,7 @@ jobs:
       - name: Install python dependencies
         run: |
           export PATH="/Users/runner/.local/bin:$PATH"
-          cd lassen && poetry install
+          cd lassen && poetry install --extras "datasets"
 
       - name: Run tests
         run: |
@@ -63,7 +63,7 @@ jobs:
     - name: Load python dependencies
       run: |
         export PATH="/Users/runner/.local/bin:$PATH"
-        cd lassen && poetry install
+        cd lassen && poetry install --extras "datasets"
 
     - name: Build and publish to PyPI
       env:
