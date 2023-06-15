@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lassen"
-version = "0.1.1"
+version = "0.1.2"
 description = "Common webapp scaffolding."
 authors = ["Pierce Freeman <pierce@freeman.vc>"]
 readme = "README.md"
