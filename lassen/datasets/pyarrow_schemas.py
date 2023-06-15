@@ -1,4 +1,5 @@
 from dataclasses import is_dataclass
+from types import NoneType
 from typing import Type, Union, get_args, get_origin
 
 import numpy as np
@@ -13,7 +14,12 @@ numpy_pyarrow_type_mapping = {
     np.dtype("float64"): pa.float64(),
 }
 
-python_type_to_pyarrow = {int: pa.int32(), float: pa.float32(), str: pa.string()}
+python_type_to_pyarrow = {
+    int: pa.int32(),
+    float: pa.float32(),
+    str: pa.string(),
+    bool: pa.bool_(),
+}
 
 
 def python_type_to_pyarrow_type(python_type: Type) -> Union[pa.DataType, None]:
@@ -25,6 +31,8 @@ def python_type_to_pyarrow_type(python_type: Type) -> Union[pa.DataType, None]:
         # This is not a complex type
         if python_type in python_type_to_pyarrow:
             return python_type_to_pyarrow[python_type]
+        elif python_type is NoneType:
+            return pa.null()
         elif is_dataclass(python_type):
             # This is a nested dataclass
             # Process the fields of the dataclass recursively

@@ -46,6 +46,10 @@ class EmbeddedDataclass:
             EmbeddedDataclass,
             EmbeddedDataclass(value=1),
         ),
+        (
+            bool,
+            True,
+        ),
     ],
 )
 def test_get_schema_from_dataclass(field_type: Any, field_value: Any):
