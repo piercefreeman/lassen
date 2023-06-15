@@ -52,3 +52,11 @@ def test_examples_to_batch():
     )
 
     assert len(dataset_new) == 3
+
+
+def test_batch_to_examples():
+    dataset_iteration = {"raw_text": ["value1", "value2"]}
+
+    per_example = list(batch_to_examples(dataset_iteration))
+
+    assert per_example == [{"raw_text": "value1"}, {"raw_text": "value2"}]

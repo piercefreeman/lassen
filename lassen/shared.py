@@ -1,5 +1,8 @@
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
-from _typeshed import DataclassInstance
+if TYPE_CHECKING:
+    from _typeshed import DataclassInstance
 
-DataclassType = TypeVar("DataclassType", bound=DataclassInstance)
+    DataclassType = TypeVar("DataclassType", bound=DataclassInstance)
+else:
+    DataclassType = TypeVar("DataclassType")
