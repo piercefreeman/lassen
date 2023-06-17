@@ -551,7 +551,7 @@ name = "psycopg2"
 version = "2.9.6"
 description = "psycopg2 - Python-PostgreSQL Database Adapter"
 category = "main"
-optional = false
+optional = true
 python-versions = ">=3.6"
 
 [[package]]
@@ -835,12 +835,13 @@ idna = ">=2.0"
 multidict = ">=4.0"
 
 [extras]
+database = ["SQLAlchemy", "psycopg2"]
 datasets = ["datasets", "numpy", "pandas"]
 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "cf7ee854e6bdd2daed1c2896b95140c25c78e4f9ad7960cd4838dbb6d9073c7b"
+content-hash = "90892ce6a4f260861497da662bc28823c5620d41b98733f1c12a3d479f23c44b"
 
 [metadata.files]
 aiohttp = [
